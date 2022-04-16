@@ -1,19 +1,19 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using NRKernal;
 
 public class ImageTracker : MonoBehaviour
 {
-    /// <summary>‰æ‘œ‚ğŒ©‚Â‚¯‚½‚É’u‚­ƒvƒŒƒnƒu</summary>
+    /// <summary>ç”»åƒã‚’è¦‹ã¤ã‘ãŸæ™‚ã«ç½®ããƒ—ãƒ¬ãƒãƒ–</summary>
     [SerializeField] GameObject _prefab;
-    /// <summary>ƒCƒ“ƒXƒ^ƒ“ƒX‰»‚³‚ê‚Ä‘¶İ‚µ‚Ä‚¢‚éƒvƒŒƒnƒu‚ÌƒŠƒXƒgBƒCƒ“ƒfƒbƒNƒX‚Íƒf[ƒ^ƒx[ƒX“à‚Ì‰æ‘œƒIƒuƒWƒFƒNƒgB</summary>
+    /// <summary>ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã•ã‚Œã¦å­˜åœ¨ã—ã¦ã„ã‚‹ãƒ—ãƒ¬ãƒãƒ–ã®ãƒªã‚¹ãƒˆã€‚ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹å†…ã®ç”»åƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚</summary>
     Dictionary<NRTrackableImage, GameObject> _prefabInstanceDictionary = new Dictionary<NRTrackableImage, GameObject>();
-    /// <summary>‰æ‘œ‚ÌƒCƒ“ƒfƒbƒNƒX‚Æ–¼‘O‚ğ•R‚Ã‚¯‚é‚½‚ß‚Ìƒf[ƒ^ƒx[ƒX</summary>
+    /// <summary>ç”»åƒã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¨åå‰ã‚’ç´ã¥ã‘ã‚‹ãŸã‚ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹</summary>
     NRTrackingImageDatabase _db = default;
 
     void Start()
     {
-        // ‰æ‘œƒf[ƒ^ƒx[ƒX‚ğæ“¾‚·‚é
+        // ç”»åƒãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’å–å¾—ã™ã‚‹
         var config = NRSessionManager.Instance.NRSessionBehaviour.SessionConfig;
         _db = config.TrackingImageDatabase;
     }
@@ -21,23 +21,23 @@ public class ImageTracker : MonoBehaviour
     void Update()
     {
         if (NRFrame.SessionStatus != SessionState.Running) return;
-        // B‰e”ÍˆÍ‚É‘¶İ‚µ‚Ä‚¢‚éŒŸo‰Â”\‚È‰æ‘œ‚ğæ“¾‚·‚é
+        // æ’®å½±ç¯„å›²ã«å­˜åœ¨ã—ã¦ã„ã‚‹æ¤œå‡ºå¯èƒ½ãªç”»åƒã‚’å–å¾—ã™ã‚‹
         List<NRTrackableImage> trackedImageList = new List<NRTrackableImage>();
-        NRFrame.GetTrackables<NRTrackableImage>(trackedImageList, NRTrackableQueryFilter.New);  // ‰‰ñ‚Ì‚İŒŸo‚·‚é
+        NRFrame.GetTrackables<NRTrackableImage>(trackedImageList, NRTrackableQueryFilter.New);  // åˆå›ã®ã¿æ¤œå‡ºã™ã‚‹
         
-        // ‰æ‘œ‚ğŒŸo‚µ‚½‚çƒvƒŒƒnƒu‚ğ¶¬‚·‚éi‚±‚±‚ğ’Ê‚é‚Ì‚Í‰‰ñ‚Ì‚İj
+        // ç”»åƒã‚’æ¤œå‡ºã—ãŸã‚‰ãƒ—ãƒ¬ãƒãƒ–ã‚’ç”Ÿæˆã™ã‚‹ï¼ˆã“ã“ã‚’é€šã‚‹ã®ã¯åˆå›ã®ã¿ï¼‰
         foreach (var image in trackedImageList)
         {
             if (image.GetTrackingState() == TrackingState.Tracking)
             {
                 Debug.Log($"Detected {_db[image.GetDataBaseIndex()].Name}.");
-                // ƒvƒŒƒnƒu‚ğƒCƒ“ƒXƒ^ƒ“ƒX‰»‚·‚é
+                // ãƒ—ãƒ¬ãƒãƒ–ã‚’ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã™ã‚‹
                 var go = Instantiate(_prefab);
                 _prefabInstanceDictionary.Add(image, go);
             }
         }
 
-        // Šù‚ÉƒCƒ“ƒXƒ^ƒ“ƒX‰»‚³‚ê‚½ƒvƒŒƒnƒu‚ğÁ‚µ‚½‚èo‚µ‚½‚èˆÚ“®‚·‚é
+        // æ—¢ã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹åŒ–ã•ã‚ŒãŸãƒ—ãƒ¬ãƒãƒ–ã‚’æ¶ˆã—ãŸã‚Šå‡ºã—ãŸã‚Šç§»å‹•ã™ã‚‹
         foreach (var e in _prefabInstanceDictionary)
         {
             if (e.Key.GetTrackingState() == TrackingState.Tracking)
@@ -45,18 +45,18 @@ public class ImageTracker : MonoBehaviour
                 if (!e.Value.activeSelf)
                 {
                     Debug.Log($"Re-detected {_db[e.Key.GetDataBaseIndex()].Name}");
-                    // ”ñƒAƒNƒeƒBƒu‚É‚µ‚Ä‚¢‚½‰æ‘œ‚ğƒJƒƒ‰‚ªŒŸo‚µ‚½‚çÄ“xƒAƒNƒeƒBƒu‰»‚·‚é
+                    // éã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã—ã¦ã„ãŸç”»åƒã‚’ã‚«ãƒ¡ãƒ©ãŒæ¤œå‡ºã—ãŸã‚‰å†åº¦ã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–ã™ã‚‹
                     e.Value.SetActive(true);
                 }
 
-                // ‰æ‘œ‚ğŒŸo‚µ‚½êŠ‚ÉƒvƒŒƒnƒuƒCƒ“ƒXƒ^ƒ“ƒX‚ğˆÚ“®‚·‚é
+                // ç”»åƒã‚’æ¤œå‡ºã—ãŸå ´æ‰€ã«ãƒ—ãƒ¬ãƒãƒ–ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç§»å‹•ã™ã‚‹
                 Pose center = e.Key.GetCenterPose();
                 e.Value.transform.position = center.position;
             }
             else if (e.Value.activeSelf)
             {
                 Debug.Log($"Lost {_db[e.Key.GetDataBaseIndex()].Name}");
-                // ‰æ‘œ‚ªƒJƒƒ‰‚Ì”ÍˆÍ‚©‚çŠO‚ê‚½‚çƒvƒŒƒnƒu‚ğ”ñƒAƒNƒeƒBƒu‰»‚·‚é
+                // ç”»åƒãŒã‚«ãƒ¡ãƒ©ã®ç¯„å›²ã‹ã‚‰å¤–ã‚ŒãŸã‚‰ãƒ—ãƒ¬ãƒãƒ–ã‚’éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–ã™ã‚‹
                 e.Value.SetActive(false);
             }
         }
